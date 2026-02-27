@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Building, Calendar, Users, AlertTriangle } from "lucide-react";
 
 export default function Dashboard() {
+  const { t } = useLanguage();
   const [stats, setStats] = useState({ stadiums: 0, reservations: 0, users: 0, maintenance: 0 });
 
   useEffect(() => {
@@ -25,15 +27,15 @@ export default function Dashboard() {
   }, []);
 
   const cards = [
-    { title: "Total Stadiums", value: stats.stadiums, icon: Building, color: "text-primary" },
-    { title: "Active Reservations", value: stats.reservations, icon: Calendar, color: "text-accent" },
-    { title: "Total Users", value: stats.users, icon: Users, color: "text-pitch" },
-    { title: "Under Maintenance", value: stats.maintenance, icon: AlertTriangle, color: "text-destructive" },
+    { title: t("admin.totalStadiums"), value: stats.stadiums, icon: Building, color: "text-primary" },
+    { title: t("admin.activeReservations"), value: stats.reservations, icon: Calendar, color: "text-accent" },
+    { title: t("admin.totalUsers"), value: stats.users, icon: Users, color: "text-pitch" },
+    { title: t("admin.underMaintenance"), value: stats.maintenance, icon: AlertTriangle, color: "text-destructive" },
   ];
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold mb-6">Dashboard</h1>
+      <h1 className="font-display text-3xl font-bold mb-6">{t("admin.dashboard")}</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {cards.map((c) => (
           <Card key={c.title}>

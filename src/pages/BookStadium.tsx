@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +15,7 @@ type Stadium = Tables<"stadiums">;
 export default function BookStadium() {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [stadium, setStadium] = useState<Stadium | null>(null);
@@ -34,7 +36,7 @@ export default function BookStadium() {
     if (!user || !stadium) return;
 
     if (startTime >= endTime) {
-      toast({ title: "Invalid time", description: "End time must be after start time", variant: "destructive" });
+      toast({ title: t("book.invalidTime"), description: t("book.invalidTimeDesc"), variant: "destructive" });
       return;
     }
 
@@ -48,9 +50,9 @@ export default function BookStadium() {
     });
 
     if (error) {
-      toast({ title: "Booking failed", description: error.message, variant: "destructive" });
+      toast({ title: t("book.failed"), description: error.message, variant: "destructive" });
     } else {
-      toast({ title: "Booking confirmed!", description: `${stadium.name} on ${date}` });
+      toast({ title: t("book.confirmed"), description: `${stadium.name} - ${date}` });
       navigate("/my-reservations");
     }
     setLoading(false);
@@ -68,29 +70,27 @@ export default function BookStadium() {
     <div className="container py-10 max-w-lg">
       <Card>
         <CardHeader>
-          <CardTitle className="font-display text-2xl">Book {stadium.name}</CardTitle>
-          <p className="text-sm text-muted-foreground">
-            {stadium.type} • {stadium.price_per_hour} DA/hr
-          </p>
+          <CardTitle className="font-display text-2xl">{t("book.title")} {stadium.name}</CardTitle>
+          <p className="text-sm text-muted-foreground">{stadium.type} • {stadium.price_per_hour} DA/hr</p>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="date">Date</Label>
+              <Label htmlFor="date">{t("book.date")}</Label>
               <Input id="date" type="date" value={date} onChange={(e) => setDate(e.target.value)} required min={new Date().toISOString().split("T")[0]} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="start">Start Time</Label>
+                <Label htmlFor="start">{t("book.startTime")}</Label>
                 <Input id="start" type="time" value={startTime} onChange={(e) => setStartTime(e.target.value)} required />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="end">End Time</Label>
+                <Label htmlFor="end">{t("book.endTime")}</Label>
                 <Input id="end" type="time" value={endTime} onChange={(e) => setEndTime(e.target.value)} required />
               </div>
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Booking..." : "Confirm Booking"}
+              {loading ? t("book.booking") : t("book.confirm")}
             </Button>
           </form>
         </CardContent>

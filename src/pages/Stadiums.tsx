@@ -4,12 +4,14 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useLanguage } from "@/contexts/LanguageContext";
 import type { Tables } from "@/integrations/supabase/types";
-import { MapPin, DollarSign } from "lucide-react";
+import { MapPin, DollarSign, Users } from "lucide-react";
 
 type Stadium = Tables<"stadiums">;
 
 export default function Stadiums() {
+  const { t } = useLanguage();
   const [stadiums, setStadiums] = useState<Stadium[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>("all");
@@ -31,15 +33,15 @@ export default function Stadiums() {
     <div className="container py-10">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="font-display text-3xl font-bold uppercase">Our Stadiums</h1>
-          <p className="text-muted-foreground">Browse available football pitches</p>
+          <h1 className="font-display text-3xl font-bold uppercase">{t("stadiums.title")}</h1>
+          <p className="text-muted-foreground">{t("stadiums.subtitle")}</p>
         </div>
         <Select value={filter} onValueChange={setFilter}>
           <SelectTrigger className="w-40">
-            <SelectValue placeholder="Filter type" />
+            <SelectValue placeholder={t("stadiums.filterType")} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Types</SelectItem>
+            <SelectItem value="all">{t("stadiums.allTypes")}</SelectItem>
             <SelectItem value="5v5">5v5</SelectItem>
             <SelectItem value="7v7">7v7</SelectItem>
             <SelectItem value="9v9">9v9</SelectItem>
@@ -53,7 +55,7 @@ export default function Stadiums() {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
         </div>
       ) : stadiums.length === 0 ? (
-        <p className="text-center text-muted-foreground py-20">No stadiums found.</p>
+        <p className="text-center text-muted-foreground py-20">{t("stadiums.noStadiums")}</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {stadiums.map((s) => (
@@ -69,16 +71,12 @@ export default function Stadiums() {
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="font-display text-lg font-semibold">{s.name}</h3>
                   <Badge variant={s.status === "available" ? "default" : "destructive"}>
-                    {s.status}
+                    {s.status === "available" ? t("stadiums.available") : t("stadiums.maintenance")}
                   </Badge>
                 </div>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-                  <span className="flex items-center gap-1">
-                    <Users className="w-4 h-4" /> {s.type}
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <DollarSign className="w-4 h-4" /> {s.price_per_hour} DA/hr
-                  </span>
+                  <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {s.type}</span>
+                  <span className="flex items-center gap-1"><DollarSign className="w-4 h-4" /> {s.price_per_hour} DA/hr</span>
                 </div>
                 {s.location && (
                   <p className="text-sm text-muted-foreground flex items-center gap-1 mb-3">
@@ -87,10 +85,10 @@ export default function Stadiums() {
                 )}
                 {s.status === "available" ? (
                   <Link to={`/book/${s.id}`}>
-                    <Button className="w-full">Book Now</Button>
+                    <Button className="w-full">{t("stadiums.bookNow")}</Button>
                   </Link>
                 ) : (
-                  <Button className="w-full" disabled>Under Maintenance</Button>
+                  <Button className="w-full" disabled>{t("stadiums.maintenance")}</Button>
                 )}
               </div>
             </div>
@@ -98,13 +96,5 @@ export default function Stadiums() {
         </div>
       )}
     </div>
-  );
-}
-
-function Users(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-    </svg>
   );
 }
