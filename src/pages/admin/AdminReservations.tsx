@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -20,6 +21,7 @@ interface Reservation {
 
 export default function AdminReservations() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -43,22 +45,21 @@ export default function AdminReservations() {
 
   const handleCancel = async (id: string) => {
     const { error } = await supabase.from("reservations").update({ status: "cancelled" as const }).eq("id", id);
-    if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
-    toast({ title: "Reservation cancelled" });
+    if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }
+    toast({ title: t("myRes.reservationCancelled") });
     fetchData();
   };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this reservation?")) return;
     const { error } = await supabase.from("reservations").delete().eq("id", id);
-    if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
-    toast({ title: "Reservation deleted" });
+    if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }
     fetchData();
   };
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold mb-6">Reservations</h1>
+      <h1 className="font-display text-3xl font-bold mb-6">{t("admin.reservations")}</h1>
       {loading ? (
         <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>
       ) : (
@@ -66,12 +67,12 @@ export default function AdminReservations() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>User</TableHead>
-                <TableHead>Stadium</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Time</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>{t("admin.user")}</TableHead>
+                <TableHead>{t("admin.stadium")}</TableHead>
+                <TableHead>{t("admin.date")}</TableHead>
+                <TableHead>{t("admin.time")}</TableHead>
+                <TableHead>{t("admin.status")}</TableHead>
+                <TableHead className="text-right">{t("admin.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -81,7 +82,11 @@ export default function AdminReservations() {
                   <TableCell>{r.stadium?.name || "—"}</TableCell>
                   <TableCell>{r.date}</TableCell>
                   <TableCell>{r.start_time} - {r.end_time}</TableCell>
-                  <TableCell><Badge variant={r.status === "confirmed" ? "default" : "destructive"}>{r.status}</Badge></TableCell>
+                  <TableCell>
+                    <Badge variant={r.status === "confirmed" ? "default" : "destructive"}>
+                      {r.status === "confirmed" ? t("myRes.confirmed") : t("myRes.cancelled")}
+                    </Badge>
+                  </TableCell>
                   <TableCell className="text-right">
                     {r.status === "confirmed" && (
                       <Button variant="ghost" size="sm" onClick={() => handleCancel(r.id)}><XCircle className="w-4 h-4" /></Button>

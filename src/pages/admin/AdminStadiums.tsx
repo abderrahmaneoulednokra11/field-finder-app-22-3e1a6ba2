@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +16,7 @@ type Stadium = Tables<"stadiums">;
 
 export default function AdminStadiums() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [stadiums, setStadiums] = useState<Stadium[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -47,12 +49,12 @@ export default function AdminStadiums() {
 
     if (editing) {
       const { error } = await supabase.from("stadiums").update(payload).eq("id", editing.id);
-      if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
-      toast({ title: "Stadium updated" });
+      if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }
+      toast({ title: t("admin.update") });
     } else {
       const { error } = await supabase.from("stadiums").insert(payload);
-      if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
-      toast({ title: "Stadium created" });
+      if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }
+      toast({ title: t("admin.create") });
     }
     setDialogOpen(false);
     fetchStadiums();
@@ -61,31 +63,30 @@ export default function AdminStadiums() {
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this stadium?")) return;
     const { error } = await supabase.from("stadiums").delete().eq("id", id);
-    if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
-    toast({ title: "Stadium deleted" });
+    if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }
     fetchStadiums();
   };
 
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-display text-3xl font-bold">Stadiums</h1>
+        <h1 className="font-display text-3xl font-bold">{t("admin.stadiums")}</h1>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
-            <Button onClick={openCreate}><Plus className="w-4 h-4 mr-2" /> Add Stadium</Button>
+            <Button onClick={openCreate}><Plus className="w-4 h-4 mr-2" /> {t("admin.addStadium")}</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="font-display">{editing ? "Edit Stadium" : "New Stadium"}</DialogTitle>
+              <DialogTitle className="font-display">{editing ? t("admin.editStadium") : t("admin.newStadium")}</DialogTitle>
             </DialogHeader>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label>Name</Label>
+                <Label>{t("admin.name")}</Label>
                 <Input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Type</Label>
+                  <Label>{t("admin.type")}</Label>
                   <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v as Stadium["type"] })}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
@@ -97,29 +98,29 @@ export default function AdminStadiums() {
                   </Select>
                 </div>
                 <div className="space-y-2">
-                  <Label>Status</Label>
+                  <Label>{t("admin.status")}</Label>
                   <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v as Stadium["status"] })}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="available">Available</SelectItem>
-                      <SelectItem value="maintenance">Maintenance</SelectItem>
+                      <SelectItem value="available">{t("stadiums.available")}</SelectItem>
+                      <SelectItem value="maintenance">{t("stadiums.maintenance")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Price per Hour (DA)</Label>
+                <Label>{t("admin.pricePerHour")}</Label>
                 <Input type="number" value={form.price_per_hour} onChange={(e) => setForm({ ...form, price_per_hour: Number(e.target.value) })} required min={0} />
               </div>
               <div className="space-y-2">
-                <Label>Location</Label>
+                <Label>{t("admin.location")}</Label>
                 <Input value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} />
               </div>
               <div className="space-y-2">
-                <Label>Image URL</Label>
+                <Label>{t("admin.imageUrl")}</Label>
                 <Input value={form.image_url} onChange={(e) => setForm({ ...form, image_url: e.target.value })} />
               </div>
-              <Button type="submit" className="w-full">{editing ? "Update" : "Create"}</Button>
+              <Button type="submit" className="w-full">{editing ? t("admin.update") : t("admin.create")}</Button>
             </form>
           </DialogContent>
         </Dialog>
@@ -132,11 +133,11 @@ export default function AdminStadiums() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Price/hr</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>{t("admin.name")}</TableHead>
+                <TableHead>{t("admin.type")}</TableHead>
+                <TableHead>{t("admin.price")}</TableHead>
+                <TableHead>{t("admin.status")}</TableHead>
+                <TableHead className="text-right">{t("admin.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -146,7 +147,9 @@ export default function AdminStadiums() {
                   <TableCell>{s.type}</TableCell>
                   <TableCell>{s.price_per_hour} DA</TableCell>
                   <TableCell>
-                    <Badge variant={s.status === "available" ? "default" : "destructive"}>{s.status}</Badge>
+                    <Badge variant={s.status === "available" ? "default" : "destructive"}>
+                      {s.status === "available" ? t("stadiums.available") : t("stadiums.maintenance")}
+                    </Badge>
                   </TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="sm" onClick={() => openEdit(s)}><Pencil className="w-4 h-4" /></Button>

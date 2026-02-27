@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -18,6 +19,7 @@ interface ReservationWithStadium {
 export default function MyReservations() {
   const { user } = useAuth();
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [reservations, setReservations] = useState<ReservationWithStadium[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -37,9 +39,9 @@ export default function MyReservations() {
   const handleCancel = async (id: string) => {
     const { error } = await supabase.from("reservations").update({ status: "cancelled" as const }).eq("id", id);
     if (error) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: t("common.error"), description: error.message, variant: "destructive" });
     } else {
-      toast({ title: "Reservation cancelled" });
+      toast({ title: t("myRes.reservationCancelled") });
       fetchReservations();
     }
   };
@@ -54,9 +56,9 @@ export default function MyReservations() {
 
   return (
     <div className="container py-10">
-      <h1 className="font-display text-3xl font-bold uppercase mb-8">My Reservations</h1>
+      <h1 className="font-display text-3xl font-bold uppercase mb-8">{t("myRes.title")}</h1>
       {reservations.length === 0 ? (
-        <p className="text-muted-foreground text-center py-20">No reservations yet.</p>
+        <p className="text-muted-foreground text-center py-20">{t("myRes.noReservations")}</p>
       ) : (
         <div className="space-y-4">
           {reservations.map((r) => (
@@ -72,9 +74,11 @@ export default function MyReservations() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <Badge variant={r.status === "confirmed" ? "default" : "destructive"}>{r.status}</Badge>
+                <Badge variant={r.status === "confirmed" ? "default" : "destructive"}>
+                  {r.status === "confirmed" ? t("myRes.confirmed") : t("myRes.cancelled")}
+                </Badge>
                 {r.status === "confirmed" && (
-                  <Button variant="outline" size="sm" onClick={() => handleCancel(r.id)}>Cancel</Button>
+                  <Button variant="outline" size="sm" onClick={() => handleCancel(r.id)}>{t("myRes.cancel")}</Button>
                 )}
               </div>
             </div>

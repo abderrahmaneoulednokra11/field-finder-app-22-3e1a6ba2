@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -17,6 +18,7 @@ interface UserProfile {
 
 export default function AdminUsers() {
   const { toast } = useToast();
+  const { t } = useLanguage();
   const [users, setUsers] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -34,17 +36,15 @@ export default function AdminUsers() {
   useEffect(() => { fetchData(); }, []);
 
   const handleDelete = async (userId: string) => {
-    if (!confirm("Delete this user? This will also delete their reservations.")) return;
-    // Delete profile (cascade handles the rest via auth)
+    if (!confirm("Delete this user?")) return;
     const { error } = await supabase.from("profiles").delete().eq("user_id", userId);
-    if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
-    toast({ title: "User removed" });
+    if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }
     fetchData();
   };
 
   return (
     <div>
-      <h1 className="font-display text-3xl font-bold mb-6">Users</h1>
+      <h1 className="font-display text-3xl font-bold mb-6">{t("admin.users")}</h1>
       {loading ? (
         <div className="flex justify-center py-10"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>
       ) : (
@@ -52,11 +52,11 @@ export default function AdminUsers() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Joined</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>{t("admin.name")}</TableHead>
+                <TableHead>{t("auth.email")}</TableHead>
+                <TableHead>{t("admin.role")}</TableHead>
+                <TableHead>{t("admin.joined")}</TableHead>
+                <TableHead className="text-right">{t("admin.actions")}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
