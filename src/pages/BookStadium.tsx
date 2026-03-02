@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Clock, MapPin, Users } from "lucide-react";
+import { getStadiumImages } from "@/lib/stadium-images";
 import type { Tables } from "@/integrations/supabase/types";
 
 type Stadium = Tables<"stadiums">;
@@ -37,6 +38,9 @@ export default function BookStadium() {
   const [reservedSlots, setReservedSlots] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState(false);
   const [loadingSlots, setLoadingSlots] = useState(false);
+  const [activeImg, setActiveImg] = useState(0);
+
+  const images = id ? getStadiumImages(id) : [];
 
   useEffect(() => {
     if (!id) return;
@@ -62,7 +66,6 @@ export default function BookStadium() {
 
       const reserved = new Set<string>();
       data?.forEach((r) => {
-        // start_time comes as "HH:MM:SS", normalize to "HH:MM"
         reserved.add(r.start_time.substring(0, 5));
       });
       setReservedSlots(reserved);
@@ -88,7 +91,7 @@ export default function BookStadium() {
     if (error) {
       toast({ title: t("book.failed"), description: error.message, variant: "destructive" });
     } else {
-      toast({ title: t("book.confirmed"), description: `${stadium.name} - ${date} ${slot.start}→${slot.end}` });
+      toast({ title: t("book.confirmed"), description: `${stadium.type} - ${date} ${slot.start}→${slot.end}` });
       navigate("/my-reservations");
     }
     setLoading(false);
@@ -103,10 +106,28 @@ export default function BookStadium() {
   }
 
   return (
-    <div className="container py-10 max-w-2xl">
+    <div className="container py-10 max-w-3xl">
+      {/* Image Gallery */}
+      <div className="mb-6">
+        <div className="rounded-xl overflow-hidden aspect-video mb-3">
+          <img src={images[activeImg]} alt={`${stadium.type} pitch`} className="w-full h-full object-cover" />
+        </div>
+        <div className="flex gap-3">
+          {images.map((img, i) => (
+            <button
+              key={i}
+              onClick={() => setActiveImg(i)}
+              className={`rounded-lg overflow-hidden w-24 h-16 border-2 transition-all ${activeImg === i ? "border-primary shadow-md" : "border-transparent opacity-70 hover:opacity-100"}`}
+            >
+              <img src={img} alt={`Gallery ${i + 1}`} className="w-full h-full object-cover" />
+            </button>
+          ))}
+        </div>
+      </div>
+
       <Card>
         <CardHeader>
-          <CardTitle className="font-display text-2xl">{t("book.title")} {stadium.name}</CardTitle>
+          <CardTitle className="font-display text-2xl">{t("book.title")} — {stadium.type}</CardTitle>
           <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
             <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {stadium.type}</span>
             <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {stadium.price_per_hour} DA / 1h30</span>
