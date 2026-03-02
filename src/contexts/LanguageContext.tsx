@@ -57,12 +57,11 @@ const translations: Record<string, Record<Lang, string>> = {
   // Book page
   "book.title": { fr: "Réserver", ar: "حجز" },
   "book.date": { fr: "Date", ar: "التاريخ" },
-  "book.startTime": { fr: "Heure de début", ar: "وقت البداية" },
-  "book.endTime": { fr: "Heure de fin", ar: "وقت النهاية" },
+  "book.selectSlot": { fr: "Choisissez un créneau", ar: "اختر فترة زمنية" },
+  "book.available": { fr: "Disponible", ar: "متاح" },
+  "book.reserved": { fr: "Réservé", ar: "محجوز" },
   "book.confirm": { fr: "Confirmer la Réservation", ar: "تأكيد الحجز" },
   "book.booking": { fr: "Réservation en cours...", ar: "جاري الحجز..." },
-  "book.invalidTime": { fr: "Heure invalide", ar: "وقت غير صالح" },
-  "book.invalidTimeDesc": { fr: "L'heure de fin doit être après l'heure de début", ar: "يجب أن يكون وقت النهاية بعد وقت البداية" },
   "book.confirmed": { fr: "Réservation confirmée !", ar: "تم تأكيد الحجز!" },
   "book.failed": { fr: "Échec de la réservation", ar: "فشل الحجز" },
 
