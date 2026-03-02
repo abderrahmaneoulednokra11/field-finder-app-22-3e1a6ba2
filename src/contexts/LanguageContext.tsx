@@ -39,6 +39,11 @@ const translations: Record<string, Record<Lang, string>> = {
   "features.allFormats": { fr: "Tous les Formats", ar: "جميع الأشكال" },
   "features.allFormatsDesc": { fr: "5c5, 7c7, 9c9, et 11c11 disponibles", ar: "5ض5، 7ض7، 9ض9، و11ض11 متاحة" },
 
+  // Stadiums showcase
+  "showcase.title": { fr: "Nos Terrains", ar: "ملاعبنا" },
+  "showcase.subtitle": { fr: "Découvrez nos terrains de qualité professionnelle", ar: "اكتشف ملاعبنا ذات الجودة الاحترافية" },
+  "showcase.bookNow": { fr: "Réserver", ar: "احجز الآن" },
+
   // CTA
   "cta.title": { fr: "Prêt à Jouer ?", ar: "مستعد للعب؟" },
   "cta.subtitle": { fr: "Créez votre compte gratuit et commencez à réserver dès aujourd'hui.", ar: "أنشئ حسابك المجاني وابدأ الحجز اليوم." },
