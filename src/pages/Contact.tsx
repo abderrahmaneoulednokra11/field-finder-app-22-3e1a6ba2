@@ -36,7 +36,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm font-medium">{t("contact.email")}</p>
-                <p className="text-sm text-muted-foreground">contact@stadiumbook.com</p>
+                <p className="text-sm text-muted-foreground">contact@easytrain.com</p>
               </div>
             </div>
             <div className="flex items-center gap-3">

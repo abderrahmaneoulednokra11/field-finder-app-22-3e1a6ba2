@@ -1,17 +1,30 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Button } from "@/components/ui/button";
+import type { Lang } from "@/lib/translations";
+
+const langOptions: { value: Lang; label: string }[] = [
+  { value: "fr", label: "FR" },
+  { value: "ar", label: "عربي" },
+  { value: "en", label: "EN" },
+];
 
 export default function LanguageToggle() {
   const { lang, setLang } = useLanguage();
 
   return (
-    <Button
-      variant="ghost"
-      size="sm"
-      onClick={() => setLang(lang === "fr" ? "ar" : "fr")}
-      className="font-semibold text-xs px-2"
-    >
-      {lang === "fr" ? "عربي" : "FR"}
-    </Button>
+    <div className="flex items-center bg-muted rounded-md overflow-hidden text-xs font-semibold">
+      {langOptions.map((opt) => (
+        <button
+          key={opt.value}
+          onClick={() => setLang(opt.value)}
+          className={`px-2 py-1.5 transition-colors ${
+            lang === opt.value
+              ? "bg-primary text-primary-foreground"
+              : "text-muted-foreground hover:text-foreground"
+          }`}
+        >
+          {opt.label}
+        </button>
+      ))}
+    </div>
   );
 }

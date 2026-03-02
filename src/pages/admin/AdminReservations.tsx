@@ -14,7 +14,7 @@ interface Reservation {
   end_time: string;
   status: "confirmed" | "cancelled";
   user_id: string;
-  stadium: { name: string } | null;
+  stadium: { name: string; type: string } | null;
   userName?: string;
   userEmail?: string;
 }
@@ -27,7 +27,7 @@ export default function AdminReservations() {
 
   const fetchData = async () => {
     const [resResult, profilesResult] = await Promise.all([
-      supabase.from("reservations").select("id, date, start_time, end_time, status, user_id, stadium:stadiums(name)").order("date", { ascending: false }),
+      supabase.from("reservations").select("id, date, start_time, end_time, status, user_id, stadium:stadiums(name, type)").order("date", { ascending: false }),
       supabase.from("profiles").select("user_id, name, email"),
     ]);
 
@@ -68,7 +68,7 @@ export default function AdminReservations() {
             <TableHeader>
               <TableRow>
                 <TableHead>{t("admin.user")}</TableHead>
-                <TableHead>{t("admin.stadium")}</TableHead>
+                <TableHead>{t("admin.type")}</TableHead>
                 <TableHead>{t("admin.date")}</TableHead>
                 <TableHead>{t("admin.time")}</TableHead>
                 <TableHead>{t("admin.status")}</TableHead>
@@ -79,7 +79,7 @@ export default function AdminReservations() {
               {reservations.map((r) => (
                 <TableRow key={r.id}>
                   <TableCell>{r.userName}<br /><span className="text-xs text-muted-foreground">{r.userEmail}</span></TableCell>
-                  <TableCell>{r.stadium?.name || "—"}</TableCell>
+                  <TableCell>{r.stadium?.type || "—"}</TableCell>
                   <TableCell>{r.date}</TableCell>
                   <TableCell>{r.start_time} - {r.end_time}</TableCell>
                   <TableCell>

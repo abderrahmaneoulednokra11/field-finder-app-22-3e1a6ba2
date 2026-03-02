@@ -5,7 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Calendar, Clock, MapPin } from "lucide-react";
+import { Calendar, Clock, MapPin, Users } from "lucide-react";
 
 interface ReservationWithStadium {
   id: string;
@@ -64,7 +64,9 @@ export default function MyReservations() {
           {reservations.map((r) => (
             <div key={r.id} className="bg-card border rounded-lg p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="space-y-1">
-                <h3 className="font-display text-lg font-semibold">{r.stadium?.name || "Unknown"}</h3>
+                <h3 className="font-display text-lg font-semibold flex items-center gap-2">
+                  <Users className="w-4 h-4 text-primary" /> {r.stadium?.type || "—"}
+                </h3>
                 <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
                   <span className="flex items-center gap-1"><Calendar className="w-4 h-4" /> {r.date}</span>
                   <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {r.start_time} - {r.end_time}</span>

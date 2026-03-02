@@ -29,7 +29,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 bg-card/80 backdrop-blur-lg border-b">
       <div className="container flex items-center justify-between h-16">
         <Link to="/" className="font-display text-xl font-bold tracking-tight text-primary">
-          ⚽ StadiumBook
+          ⚽ EasyTrain
         </Link>
 
         {/* Desktop */}

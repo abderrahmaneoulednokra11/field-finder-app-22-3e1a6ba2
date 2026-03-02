@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getStadiumMainImage } from "@/lib/stadium-images";
 import type { Tables } from "@/integrations/supabase/types";
 import { MapPin, DollarSign, Users } from "lucide-react";
 
@@ -58,41 +59,40 @@ export default function Stadiums() {
         <p className="text-center text-muted-foreground py-20">{t("stadiums.noStadiums")}</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {stadiums.map((s) => (
-            <div key={s.id} className="bg-card border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-              <div className="h-48 bg-muted flex items-center justify-center">
-                {s.image_url ? (
-                  <img src={s.image_url} alt={s.name} className="w-full h-full object-cover" />
-                ) : (
-                  <span className="text-4xl">⚽</span>
-                )}
-              </div>
-              <div className="p-5">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="font-display text-lg font-semibold">{s.name}</h3>
-                  <Badge variant={s.status === "available" ? "default" : "destructive"}>
-                    {s.status === "available" ? t("stadiums.available") : t("stadiums.maintenance")}
-                  </Badge>
+          {stadiums.map((s) => {
+            const mainImg = getStadiumMainImage(s.id);
+            return (
+              <div key={s.id} className="bg-card border rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                <div className="h-48 bg-muted">
+                  <img src={mainImg} alt={`${s.type} pitch`} className="w-full h-full object-cover" />
                 </div>
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-                  <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {s.type}</span>
-                  <span className="flex items-center gap-1"><DollarSign className="w-4 h-4" /> {s.price_per_hour} DA/hr</span>
+                <div className="p-5">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="font-display text-lg font-semibold">{s.type}</h3>
+                    <Badge variant={s.status === "available" ? "default" : "destructive"}>
+                      {s.status === "available" ? t("stadiums.available") : t("stadiums.maintenance")}
+                    </Badge>
+                  </div>
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                    <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {s.type}</span>
+                    <span className="flex items-center gap-1"><DollarSign className="w-4 h-4" /> {s.price_per_hour} DA/hr</span>
+                  </div>
+                  {s.location && (
+                    <p className="text-sm text-muted-foreground flex items-center gap-1 mb-3">
+                      <MapPin className="w-4 h-4" /> {s.location}
+                    </p>
+                  )}
+                  {s.status === "available" ? (
+                    <Link to={`/book/${s.id}`}>
+                      <Button className="w-full">{t("stadiums.bookNow")}</Button>
+                    </Link>
+                  ) : (
+                    <Button className="w-full" disabled>{t("stadiums.maintenance")}</Button>
+                  )}
                 </div>
-                {s.location && (
-                  <p className="text-sm text-muted-foreground flex items-center gap-1 mb-3">
-                    <MapPin className="w-4 h-4" /> {s.location}
-                  </p>
-                )}
-                {s.status === "available" ? (
-                  <Link to={`/book/${s.id}`}>
-                    <Button className="w-full">{t("stadiums.bookNow")}</Button>
-                  </Link>
-                ) : (
-                  <Button className="w-full" disabled>{t("stadiums.maintenance")}</Button>
-                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

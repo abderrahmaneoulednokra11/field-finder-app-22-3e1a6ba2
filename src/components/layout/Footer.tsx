@@ -9,7 +9,7 @@ export default function Footer() {
       <div className="container py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="font-display text-lg font-bold text-primary mb-2">⚽ StadiumBook</h3>
+            <h3 className="font-display text-lg font-bold text-primary mb-2">⚽ EasyTrain</h3>
             <p className="text-sm text-muted-foreground">{t("footer.description")}</p>
           </div>
           <div>
@@ -22,12 +22,12 @@ export default function Footer() {
           </div>
           <div>
             <h4 className="font-display text-sm font-semibold uppercase tracking-wider mb-3">{t("contact.title")}</h4>
-            <p className="text-sm text-muted-foreground">contact@stadiumbook.com</p>
+            <p className="text-sm text-muted-foreground">contact@easytrain.com</p>
             <p className="text-sm text-muted-foreground">+213 555 123 456</p>
           </div>
         </div>
         <div className="border-t mt-6 pt-6 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} StadiumBook — PFE Project
+          © {new Date().getFullYear()} EasyTrain — PFE Project
         </div>
       </div>
     </footer>
