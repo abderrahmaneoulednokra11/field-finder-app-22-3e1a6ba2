@@ -10,18 +10,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Pencil, Trash2 } from "lucide-react";
-import type { Tables } from "@/integrations/supabase/types";
-
-type Stadium = Tables<"stadiums">;
 
 export default function AdminStadiums() {
   const { toast } = useToast();
   const { t } = useLanguage();
-  const [stadiums, setStadiums] = useState<Stadium[]>([]);
+  const [stadiums, setStadiums] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editing, setEditing] = useState<Stadium | null>(null);
-  const [form, setForm] = useState({ name: "", type: "5v5" as Stadium["type"], price_per_hour: 0, status: "available" as Stadium["status"], location: "", description: "", image_url: "" });
+  const [editing, setEditing] = useState(null);
+  const [form, setForm] = useState({ name: "", type: "5v5", price_per_hour: 0, status: "available", location: "", description: "", image_url: "" });
 
   const fetchStadiums = async () => {
     const { data } = await supabase.from("stadiums").select("*").order("created_at", { ascending: false });
@@ -37,13 +34,13 @@ export default function AdminStadiums() {
     setDialogOpen(true);
   };
 
-  const openEdit = (s: Stadium) => {
+  const openEdit = (s) => {
     setEditing(s);
     setForm({ name: s.name, type: s.type, price_per_hour: s.price_per_hour, status: s.status, location: s.location || "", description: s.description || "", image_url: s.image_url || "" });
     setDialogOpen(true);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const payload = { ...form, price_per_hour: Number(form.price_per_hour), image_url: form.image_url || null, location: form.location || null, description: form.description || null };
 
@@ -60,7 +57,7 @@ export default function AdminStadiums() {
     fetchStadiums();
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id) => {
     if (!confirm("Delete this stadium?")) return;
     const { error } = await supabase.from("stadiums").delete().eq("id", id);
     if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }
@@ -87,7 +84,7 @@ export default function AdminStadiums() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>{t("admin.type")}</Label>
-                  <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v as Stadium["type"] })}>
+                  <Select value={form.type} onValueChange={(v) => setForm({ ...form, type: v })}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="5v5">5v5</SelectItem>
@@ -99,7 +96,7 @@ export default function AdminStadiums() {
                 </div>
                 <div className="space-y-2">
                   <Label>{t("admin.status")}</Label>
-                  <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v as Stadium["status"] })}>
+                  <Select value={form.status} onValueChange={(v) => setForm({ ...form, status: v })}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="available">{t("stadiums.available")}</SelectItem>
@@ -145,7 +142,7 @@ export default function AdminStadiums() {
                 <TableRow key={s.id}>
                   <TableCell className="font-medium">{s.name}</TableCell>
                   <TableCell>{s.type}</TableCell>
-                  <TableCell>{s.price_per_hour} DA</TableCell>
+                  <TableCell>{s.price_per_hour} MAD</TableCell>
                   <TableCell>
                     <Badge variant={s.status === "available" ? "default" : "destructive"}>
                       {s.status === "available" ? t("stadiums.available") : t("stadiums.maintenance")}

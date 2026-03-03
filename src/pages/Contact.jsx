@@ -13,13 +13,13 @@ export default function Contact() {
   const { t } = useLanguage();
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
       toast({ title: t("contact.sent"), description: t("contact.sentDesc") });
       setLoading(false);
-      (e.target as HTMLFormElement).reset();
+      e.target.reset();
     }, 500);
   };
 
@@ -36,7 +36,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm font-medium">{t("contact.email")}</p>
-                <p className="text-sm text-muted-foreground">contact@easytrain.com</p>
+                <p className="text-sm text-muted-foreground">contact@easytrain.ma</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -45,7 +45,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm font-medium">{t("contact.phone")}</p>
-                <p className="text-sm text-muted-foreground">+213 555 123 456</p>
+                <p className="text-sm text-muted-foreground">+212 6 12 34 56 78</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -54,7 +54,7 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-sm font-medium">{t("contact.address")}</p>
-                <p className="text-sm text-muted-foreground">Algiers, Algeria</p>
+                <p className="text-sm text-muted-foreground">Marrakech, Morocco</p>
               </div>
             </div>
           </div>

@@ -19,7 +19,7 @@ export default function Auth() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
@@ -30,7 +30,7 @@ export default function Auth() {
       }
       toast({ title: isLogin ? t("auth.welcomeBack") : t("auth.createAccount") });
       navigate("/");
-    } catch (err: any) {
+    } catch (err) {
       toast({ title: t("common.error"), description: err.message, variant: "destructive" });
     } finally {
       setLoading(false);

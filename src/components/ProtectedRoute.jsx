@@ -1,15 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import type { Database } from "@/integrations/supabase/types";
 
-type AppRole = Database["public"]["Enums"]["app_role"];
-
-interface Props {
-  children: React.ReactNode;
-  requiredRole?: AppRole;
-}
-
-export default function ProtectedRoute({ children, requiredRole }: Props) {
+export default function ProtectedRoute({ children, requiredRole }) {
   const { user, role, loading } = useAuth();
 
   if (loading) {

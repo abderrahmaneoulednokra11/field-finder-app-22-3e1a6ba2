@@ -1,6 +1,4 @@
-export type Lang = "fr" | "ar" | "en";
-
-export const translations: Record<string, Record<Lang, string>> = {
+export const translations = {
   // Navbar
   "nav.home": { fr: "Accueil", ar: "الرئيسية", en: "Home" },
   "nav.stadiums": { fr: "Stades", ar: "الملاعب", en: "Stadiums" },
@@ -15,14 +13,14 @@ export const translations: Record<string, Record<Lang, string>> = {
   // Hero
   "hero.title1": { fr: "Réservez Votre", ar: "احجز", en: "Book Your" },
   "hero.title2": { fr: "Terrain", ar: "ملعبك", en: "Pitch" },
-  "hero.subtitle": { fr: "Le moyen le plus simple de réserver des stades de football. Choisissez votre format, sélectionnez votre horaire et jouez.", ar: "أسهل طريقة لحجز ملاعب كرة القدم. اختر التنسيق، حدد الوقت والعب.", en: "The easiest way to book football stadiums. Choose your format, select your time slot and play." },
+  "hero.subtitle": { fr: "Le moyen le plus simple de réserver des stades de football à Marrakech. Choisissez votre format, sélectionnez votre horaire et jouez.", ar: "أسهل طريقة لحجز ملاعب كرة القدم في مراكش. اختر التنسيق، حدد الوقت والعب.", en: "The easiest way to book football stadiums in Marrakech. Choose your format, select your time slot and play." },
   "hero.browse": { fr: "Voir les Stades", ar: "تصفح الملاعب", en: "Browse Stadiums" },
   "hero.getStarted": { fr: "Commencer", ar: "ابدأ الآن", en: "Get Started" },
 
   // Features
   "features.title": { fr: "Pourquoi", ar: "لماذا", en: "Why" },
   "features.multipleLocations": { fr: "Emplacements Multiples", ar: "مواقع متعددة", en: "Multiple Locations" },
-  "features.multipleLocationsDesc": { fr: "Trouvez des terrains près de chez vous", ar: "ابحث عن ملاعب بالقرب منك", en: "Find pitches near you" },
+  "features.multipleLocationsDesc": { fr: "Trouvez des terrains à Marrakech", ar: "ابحث عن ملاعب في مراكش", en: "Find pitches in Marrakech" },
   "features.instantBooking": { fr: "Réservation Instantanée", ar: "حجز فوري", en: "Instant Booking" },
   "features.instantBookingDesc": { fr: "Réservez en quelques secondes, 24h/24", ar: "احجز في ثوانٍ، على مدار الساعة", en: "Book in seconds, 24/7" },
   "features.guaranteedSlot": { fr: "Créneau Garanti", ar: "مكان مضمون", en: "Guaranteed Slot" },
@@ -32,7 +30,7 @@ export const translations: Record<string, Record<Lang, string>> = {
 
   // Stadiums showcase
   "showcase.title": { fr: "Nos Terrains", ar: "ملاعبنا", en: "Our Pitches" },
-  "showcase.subtitle": { fr: "Découvrez nos terrains de qualité professionnelle", ar: "اكتشف ملاعبنا ذات الجودة الاحترافية", en: "Discover our professional-quality pitches" },
+  "showcase.subtitle": { fr: "Découvrez nos terrains de qualité professionnelle à Marrakech", ar: "اكتشف ملاعبنا ذات الجودة الاحترافية في مراكش", en: "Discover our professional-quality pitches in Marrakech" },
   "showcase.bookNow": { fr: "Réserver", ar: "احجز الآن", en: "Book Now" },
 
   // CTA
@@ -42,7 +40,7 @@ export const translations: Record<string, Record<Lang, string>> = {
 
   // Stadiums page
   "stadiums.title": { fr: "Nos Stades", ar: "ملاعبنا", en: "Our Stadiums" },
-  "stadiums.subtitle": { fr: "Parcourez les terrains disponibles", ar: "تصفح الملاعب المتاحة", en: "Browse available pitches" },
+  "stadiums.subtitle": { fr: "Parcourez les terrains disponibles à Marrakech", ar: "تصفح الملاعب المتاحة في مراكش", en: "Browse available pitches in Marrakech" },
   "stadiums.allTypes": { fr: "Tous les types", ar: "جميع الأنواع", en: "All Types" },
   "stadiums.filterType": { fr: "Filtrer par type", ar: "تصفية حسب النوع", en: "Filter by type" },
   "stadiums.noStadiums": { fr: "Aucun stade trouvé.", ar: "لم يتم العثور على ملاعب.", en: "No stadiums found." },
@@ -72,13 +70,13 @@ export const translations: Record<string, Record<Lang, string>> = {
 
   // About
   "about.title": { fr: "À propos d'EasyTrain", ar: "حول EasyTrain", en: "About EasyTrain" },
-  "about.description": { fr: "EasyTrain est une plateforme moderne de réservation de stades de football qui facilite la recherche et la réservation de terrains. Que vous organisiez un match 5c5 décontracté ou un match 11c11 compétitif, nous avons le terrain parfait.", ar: "EasyTrain هي منصة حديثة لحجز ملاعب كرة القدم تسهل البحث والحجز. سواء كنت تنظم مباراة 5ض5 ودية أو مباراة 11ض11 تنافسية، لدينا الملعب المثالي.", en: "EasyTrain is a modern football stadium booking platform that makes finding and booking pitches easy. Whether you're organizing a casual 5v5 match or a competitive 11v11 game, we have the perfect pitch." },
+  "about.description": { fr: "EasyTrain est une plateforme moderne de réservation de stades de football à Marrakech qui facilite la recherche et la réservation de terrains. Que vous organisiez un match 5c5 décontracté ou un match 11c11 compétitif, nous avons le terrain parfait.", ar: "EasyTrain هي منصة حديثة لحجز ملاعب كرة القدم في مراكش تسهل البحث والحجز. سواء كنت تنظم مباراة 5ض5 ودية أو مباراة 11ض11 تنافسية، لدينا الملعب المثالي.", en: "EasyTrain is a modern football stadium booking platform in Marrakech that makes finding and booking pitches easy. Whether you're organizing a casual 5v5 match or a competitive 11v11 game, we have the perfect pitch." },
   "about.stadiums": { fr: "Stades", ar: "ملاعب", en: "Stadiums" },
   "about.players": { fr: "Joueurs", ar: "لاعبين", en: "Players" },
   "about.bookings": { fr: "Réservations", ar: "حجوزات", en: "Bookings" },
   "about.rating": { fr: "Note", ar: "تقييم", en: "Rating" },
   "about.mission": { fr: "Notre Mission", ar: "مهمتنا", en: "Our Mission" },
-  "about.missionDesc": { fr: "Nous croyons que tout le monde mérite d'accéder à des terrains de qualité. Notre plateforme connecte les joueurs avec les propriétaires de stades, rendant le processus de réservation fluide.", ar: "نؤمن أن الجميع يستحق الوصول إلى ملاعب ذات جودة. منصتنا تربط اللاعبين بأصحاب الملاعب، مما يجعل عملية الحجز سلسة.", en: "We believe everyone deserves access to quality pitches. Our platform connects players with stadium owners, making the booking process seamless." },
+  "about.missionDesc": { fr: "Nous croyons que tout le monde à Marrakech mérite d'accéder à des terrains de qualité. Notre plateforme connecte les joueurs avec les propriétaires de stades, rendant le processus de réservation fluide.", ar: "نؤمن أن الجميع في مراكش يستحق الوصول إلى ملاعب ذات جودة. منصتنا تربط اللاعبين بأصحاب الملاعب، مما يجعل عملية الحجز سلسة.", en: "We believe everyone in Marrakech deserves access to quality pitches. Our platform connects players with stadium owners, making the booking process seamless." },
   "about.howItWorks": { fr: "Comment ça marche", ar: "كيف يعمل", en: "How It Works" },
   "about.step1": { fr: "Parcourez les stades disponibles et choisissez votre type de terrain préféré", ar: "تصفح الملاعب المتاحة واختر نوع الملعب المفضل", en: "Browse available stadiums and choose your preferred pitch type" },
   "about.step2": { fr: "Créez un compte gratuit ou connectez-vous", ar: "أنشئ حسابًا مجانيًا أو سجّل دخولك", en: "Create a free account or sign in" },
@@ -116,7 +114,7 @@ export const translations: Record<string, Record<Lang, string>> = {
   "auth.hasAccount": { fr: "Déjà un compte ? Connectez-vous", ar: "لديك حساب؟ سجّل الدخول", en: "Already have an account? Sign in" },
 
   // Footer
-  "footer.description": { fr: "Réservez votre terrain de football préféré en quelques secondes. 5c5, 7c7, 9c9, ou 11c11.", ar: "احجز ملعب كرة القدم المفضل لديك في ثوانٍ. 5ض5، 7ض7، 9ض9، أو 11ض11.", en: "Book your favourite football pitch in seconds. 5v5, 7v7, 9v9, or 11v11." },
+  "footer.description": { fr: "Réservez votre terrain de football préféré à Marrakech en quelques secondes. 5c5, 7c7, 9c9, ou 11c11.", ar: "احجز ملعب كرة القدم المفضل لديك في مراكش في ثوانٍ. 5ض5، 7ض7، 9ض9، أو 11ض11.", en: "Book your favourite football pitch in Marrakech in seconds. 5v5, 7v7, 9v9, or 11v11." },
   "footer.quickLinks": { fr: "Liens Rapides", ar: "روابط سريعة", en: "Quick Links" },
   "footer.browseStadiums": { fr: "Voir les Stades", ar: "تصفح الملاعب", en: "Browse Stadiums" },
   "footer.aboutUs": { fr: "À propos", ar: "حول", en: "About Us" },
@@ -139,7 +137,7 @@ export const translations: Record<string, Record<Lang, string>> = {
   "admin.name": { fr: "Nom", ar: "الاسم", en: "Name" },
   "admin.type": { fr: "Type", ar: "النوع", en: "Type" },
   "admin.status": { fr: "Statut", ar: "الحالة", en: "Status" },
-  "admin.pricePerHour": { fr: "Prix/heure (DA)", ar: "السعر/ساعة (د.ج)", en: "Price/hour (DA)" },
+  "admin.pricePerHour": { fr: "Prix/heure (MAD)", ar: "السعر/ساعة (د.م)", en: "Price/hour (MAD)" },
   "admin.location": { fr: "Emplacement", ar: "الموقع", en: "Location" },
   "admin.imageUrl": { fr: "URL de l'image", ar: "رابط الصورة", en: "Image URL" },
   "admin.actions": { fr: "Actions", ar: "إجراءات", en: "Actions" },

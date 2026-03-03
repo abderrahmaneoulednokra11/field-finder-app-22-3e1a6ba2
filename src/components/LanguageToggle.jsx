@@ -1,7 +1,6 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import type { Lang } from "@/lib/translations";
 
-const langOptions: { value: Lang; label: string }[] = [
+const langOptions = [
   { value: "fr", label: "FR" },
   { value: "ar", label: "عربي" },
   { value: "en", label: "EN" },
