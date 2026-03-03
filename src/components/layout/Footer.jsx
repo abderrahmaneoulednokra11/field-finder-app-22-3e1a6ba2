@@ -22,8 +22,8 @@ export default function Footer() {
           </div>
           <div>
             <h4 className="font-display text-sm font-semibold uppercase tracking-wider mb-3">{t("contact.title")}</h4>
-            <p className="text-sm text-muted-foreground">contact@easytrain.com</p>
-            <p className="text-sm text-muted-foreground">+213 555 123 456</p>
+            <p className="text-sm text-muted-foreground">contact@easytrain.ma</p>
+            <p className="text-sm text-muted-foreground">+212 6 12 34 56 78</p>
           </div>
         </div>
         <div className="border-t mt-6 pt-6 text-center text-xs text-muted-foreground">

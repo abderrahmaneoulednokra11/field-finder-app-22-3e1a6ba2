@@ -6,22 +6,19 @@ import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getStadiumMainImage } from "@/lib/stadium-images";
-import type { Tables } from "@/integrations/supabase/types";
 import { MapPin, DollarSign, Users } from "lucide-react";
-
-type Stadium = Tables<"stadiums">;
 
 export default function Stadiums() {
   const { t } = useLanguage();
-  const [stadiums, setStadiums] = useState<Stadium[]>([]);
+  const [stadiums, setStadiums] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<string>("all");
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
     const fetch = async () => {
       let query = supabase.from("stadiums").select("*").order("name");
       if (filter !== "all") {
-        query = query.eq("type", filter as Stadium["type"]);
+        query = query.eq("type", filter);
       }
       const { data } = await query;
       setStadiums(data || []);
@@ -75,7 +72,7 @@ export default function Stadiums() {
                   </div>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
                     <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {s.type}</span>
-                    <span className="flex items-center gap-1"><DollarSign className="w-4 h-4" /> {s.price_per_hour} DA/hr</span>
+                    <span className="flex items-center gap-1"><DollarSign className="w-4 h-4" /> {s.price_per_hour} MAD/h</span>
                   </div>
                   {s.location && (
                     <p className="text-sm text-muted-foreground flex items-center gap-1 mb-3">

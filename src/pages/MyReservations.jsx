@@ -7,20 +7,11 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { Calendar, Clock, MapPin, Users } from "lucide-react";
 
-interface ReservationWithStadium {
-  id: string;
-  date: string;
-  start_time: string;
-  end_time: string;
-  status: "confirmed" | "cancelled";
-  stadium: { name: string; type: string; location: string | null } | null;
-}
-
 export default function MyReservations() {
   const { user } = useAuth();
   const { toast } = useToast();
   const { t } = useLanguage();
-  const [reservations, setReservations] = useState<ReservationWithStadium[]>([]);
+  const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchReservations = async () => {
@@ -30,14 +21,14 @@ export default function MyReservations() {
       .select("id, date, start_time, end_time, status, stadium:stadiums(name, type, location)")
       .eq("user_id", user.id)
       .order("date", { ascending: false });
-    setReservations((data as unknown as ReservationWithStadium[]) || []);
+    setReservations(data || []);
     setLoading(false);
   };
 
   useEffect(() => { fetchReservations(); }, [user]);
 
-  const handleCancel = async (id: string) => {
-    const { error } = await supabase.from("reservations").update({ status: "cancelled" as const }).eq("id", id);
+  const handleCancel = async (id) => {
+    const { error } = await supabase.from("reservations").update({ status: "cancelled" }).eq("id", id);
     if (error) {
       toast({ title: t("common.error"), description: error.message, variant: "destructive" });
     } else {

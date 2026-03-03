@@ -7,22 +7,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useToast } from "@/hooks/use-toast";
 import { Trash2, XCircle } from "lucide-react";
 
-interface Reservation {
-  id: string;
-  date: string;
-  start_time: string;
-  end_time: string;
-  status: "confirmed" | "cancelled";
-  user_id: string;
-  stadium: { name: string; type: string } | null;
-  userName?: string;
-  userEmail?: string;
-}
-
 export default function AdminReservations() {
   const { toast } = useToast();
   const { t } = useLanguage();
-  const [reservations, setReservations] = useState<Reservation[]>([]);
+  const [reservations, setReservations] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
@@ -32,7 +20,7 @@ export default function AdminReservations() {
     ]);
 
     const profileMap = new Map((profilesResult.data || []).map((p) => [p.user_id, p]));
-    const enriched = ((resResult.data as unknown as Reservation[]) || []).map((r) => {
+    const enriched = (resResult.data || []).map((r) => {
       const profile = profileMap.get(r.user_id);
       return { ...r, userName: profile?.name || "Unknown", userEmail: profile?.email || "" };
     });
@@ -43,14 +31,14 @@ export default function AdminReservations() {
 
   useEffect(() => { fetchData(); }, []);
 
-  const handleCancel = async (id: string) => {
-    const { error } = await supabase.from("reservations").update({ status: "cancelled" as const }).eq("id", id);
+  const handleCancel = async (id) => {
+    const { error } = await supabase.from("reservations").update({ status: "cancelled" }).eq("id", id);
     if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }
     toast({ title: t("myRes.reservationCancelled") });
     fetchData();
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id) => {
     if (!confirm("Delete this reservation?")) return;
     const { error } = await supabase.from("reservations").delete().eq("id", id);
     if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }

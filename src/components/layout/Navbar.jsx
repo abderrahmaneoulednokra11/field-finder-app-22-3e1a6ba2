@@ -32,7 +32,6 @@ export default function Navbar() {
           ⚽ EasyTrain
         </Link>
 
-        {/* Desktop */}
         <div className="hidden md:flex items-center gap-6">
           {links.map((l) => (
             <Link key={l.to} to={l.to} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
@@ -71,7 +70,6 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile */}
         <div className="md:hidden flex items-center gap-2">
           <LanguageToggle />
           <ThemeToggle />

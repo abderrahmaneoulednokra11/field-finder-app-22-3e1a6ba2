@@ -10,9 +10,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Clock, MapPin, Users } from "lucide-react";
 import { getStadiumImages } from "@/lib/stadium-images";
-import type { Tables } from "@/integrations/supabase/types";
-
-type Stadium = Tables<"stadiums">;
 
 const TIME_SLOTS = [
   { start: "09:00", end: "10:30" },
@@ -27,15 +24,15 @@ const TIME_SLOTS = [
 ];
 
 export default function BookStadium() {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams();
   const { user } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [stadium, setStadium] = useState<Stadium | null>(null);
+  const [stadium, setStadium] = useState(null);
   const [date, setDate] = useState("");
-  const [selectedSlot, setSelectedSlot] = useState<number | null>(null);
-  const [reservedSlots, setReservedSlots] = useState<Set<string>>(new Set());
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [reservedSlots, setReservedSlots] = useState(new Set());
   const [loading, setLoading] = useState(false);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
@@ -64,7 +61,7 @@ export default function BookStadium() {
         .eq("date", date)
         .eq("status", "confirmed");
 
-      const reserved = new Set<string>();
+      const reserved = new Set();
       data?.forEach((r) => {
         reserved.add(r.start_time.substring(0, 5));
       });
@@ -130,12 +127,11 @@ export default function BookStadium() {
           <CardTitle className="font-display text-2xl">{t("book.title")} — {stadium.type}</CardTitle>
           <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
             <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {stadium.type}</span>
-            <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {stadium.price_per_hour} DA / 1h30</span>
+            <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {stadium.price_per_hour} MAD / 1h30</span>
             {stadium.location && <span className="flex items-center gap-1"><MapPin className="w-4 h-4" /> {stadium.location}</span>}
           </div>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Date picker */}
           <div className="space-y-2">
             <Label htmlFor="date">{t("book.date")}</Label>
             <Input
@@ -148,7 +144,6 @@ export default function BookStadium() {
             />
           </div>
 
-          {/* Time slots */}
           {date && (
             <div className="space-y-3">
               <Label>{t("book.selectSlot")}</Label>
@@ -190,7 +185,6 @@ export default function BookStadium() {
             </div>
           )}
 
-          {/* Confirm */}
           <Button
             onClick={handleSubmit}
             className="w-full"

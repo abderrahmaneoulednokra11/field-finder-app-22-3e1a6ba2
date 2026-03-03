@@ -7,19 +7,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { useToast } from "@/hooks/use-toast";
 import { Trash2 } from "lucide-react";
 
-interface UserProfile {
-  id: string;
-  user_id: string;
-  name: string;
-  email: string;
-  created_at: string;
-  role?: string;
-}
-
 export default function AdminUsers() {
   const { toast } = useToast();
   const { t } = useLanguage();
-  const [users, setUsers] = useState<UserProfile[]>([]);
+  const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
@@ -35,7 +26,7 @@ export default function AdminUsers() {
 
   useEffect(() => { fetchData(); }, []);
 
-  const handleDelete = async (userId: string) => {
+  const handleDelete = async (userId) => {
     if (!confirm("Delete this user?")) return;
     const { error } = await supabase.from("profiles").delete().eq("user_id", userId);
     if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }
