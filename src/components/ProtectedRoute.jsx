@@ -13,7 +13,15 @@ export default function ProtectedRoute({ children, requiredRole }) {
   }
 
   if (!user) return <Navigate to="/auth" replace />;
-  if (requiredRole && role !== requiredRole) return <Navigate to="/" replace />;
+
+  // Admin trying to access client pages → redirect to dashboard
+  if (requiredRole === "client" && role === "admin") return <Navigate to="/admin" replace />;
+
+  // Client trying to access admin pages → redirect to home
+  if (requiredRole === "admin" && role !== "admin") return <Navigate to="/" replace />;
+
+  // Generic protected route (no specific role required) - admin should go to dashboard
+  if (!requiredRole && role === "admin") return <Navigate to="/admin" replace />;
 
   return <>{children}</>;
 }

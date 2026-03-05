@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { MapPin, Clock, Shield, Users } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -14,6 +15,10 @@ const showcaseStadiums = [
 
 export default function Index() {
   const { t } = useLanguage();
+  const { user, role } = useAuth();
+
+  // Determine "Get Started" button destination
+  const getStartedLink = !user ? "/auth" : role === "admin" ? "/admin" : "/stadiums";
 
   const features = [
     { icon: MapPin, title: t("features.multipleLocations"), desc: t("features.multipleLocationsDesc") },
@@ -37,7 +42,7 @@ export default function Index() {
             <Link to="/stadiums">
               <Button size="lg" className="font-display uppercase tracking-wider">{t("hero.browse")}</Button>
             </Link>
-            <Link to="/auth">
+            <Link to={getStartedLink}>
               <Button size="lg" variant="outline" className="font-display uppercase tracking-wider border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
                 {t("hero.getStarted")}
               </Button>
@@ -96,7 +101,7 @@ export default function Index() {
         <div className="container text-center">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 uppercase">{t("cta.title")}</h2>
           <p className="text-primary-foreground/80 mb-8 max-w-lg mx-auto">{t("cta.subtitle")}</p>
-          <Link to="/auth">
+          <Link to={getStartedLink}>
             <Button size="lg" variant="secondary" className="font-display uppercase tracking-wider">{t("cta.signUp")}</Button>
           </Link>
         </div>
