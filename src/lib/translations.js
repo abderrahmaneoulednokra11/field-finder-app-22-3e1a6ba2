@@ -59,6 +59,9 @@ export const translations = {
   "book.confirmed": { fr: "Réservation confirmée !", ar: "تم تأكيد الحجز!", en: "Booking confirmed!" },
   "book.failed": { fr: "Échec de la réservation", ar: "فشل الحجز", en: "Booking failed" },
   "book.gallery": { fr: "Galerie", ar: "معرض الصور", en: "Gallery" },
+  "book.tooSoon": { fr: "La réservation doit être faite au moins 2 heures à l'avance.", ar: "يجب إجراء الحجز قبل ساعتين على الأقل.", en: "Reservation must be made at least 2 hours in advance." },
+  "book.alreadyTaken": { fr: "Ce créneau a déjà été réservé.", ar: "هذا الموعد محجوز بالفعل.", en: "This reservation slot has already been selected." },
+  "book.tooSoonShort": { fr: "Trop tôt", ar: "مبكر جداً", en: "Too soon" },
 
   // My Reservations
   "myRes.title": { fr: "Mes Réservations", ar: "حجوزاتي", en: "My Bookings" },
