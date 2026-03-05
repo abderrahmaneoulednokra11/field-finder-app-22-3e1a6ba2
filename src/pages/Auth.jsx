@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -14,20 +14,31 @@ export default function Auth() {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [loading, setLoading] = useState(false);
-  const { user, role, signIn, signUp } = useAuth();
+  const { user, role, loading: authLoading, signIn, signUp } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   // Redirect if already logged in
-  if (user) {
-    if (role === "admin") {
-      navigate("/admin", { replace: true });
-    } else {
-      navigate("/", { replace: true });
+  useEffect(() => {
+    if (!authLoading && user) {
+      if (role === "admin") {
+        navigate("/admin", { replace: true });
+      } else {
+        navigate("/", { replace: true });
+      }
     }
-    return null;
+  }, [user, role, authLoading, navigate]);
+
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[50vh]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
+      </div>
+    );
   }
+
+  if (user) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,8 +50,7 @@ export default function Auth() {
         await signUp(email, password, name);
       }
       toast({ title: isLogin ? t("auth.welcomeBack") : t("auth.createAccount") });
-      // Role-based redirect after login
-      // We need to wait for role to be fetched, so navigate to home and let AuthContext handle
+      // useEffect above will handle redirect once user & role are set
     } catch (err) {
       toast({ title: t("common.error"), description: err.message, variant: "destructive" });
     } finally {
