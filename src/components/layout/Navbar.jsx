@@ -13,6 +13,9 @@ export default function Navbar() {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
+  // Admin should not see client navbar at all
+  if (user && role === "admin") return null;
+
   const handleSignOut = async () => {
     await signOut();
     navigate("/");
@@ -41,12 +44,6 @@ export default function Navbar() {
           {user && (
             <Link to="/my-reservations" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
               {t("nav.myReservations")}
-            </Link>
-          )}
-          {role === "admin" && (
-            <Link to="/admin" className="text-sm font-medium text-primary hover:text-primary/80 transition-colors">
-              <LayoutDashboard className="inline w-4 h-4 mr-1" />
-              {t("nav.admin")}
             </Link>
           )}
 
@@ -89,11 +86,6 @@ export default function Navbar() {
           {user && (
             <Link to="/my-reservations" onClick={() => setOpen(false)} className="block text-sm font-medium text-muted-foreground">
               {t("nav.myReservations")}
-            </Link>
-          )}
-          {role === "admin" && (
-            <Link to="/admin" onClick={() => setOpen(false)} className="block text-sm font-medium text-primary">
-              {t("nav.adminDashboard")}
             </Link>
           )}
           {user ? (

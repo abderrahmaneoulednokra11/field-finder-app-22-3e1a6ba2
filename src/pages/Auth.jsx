@@ -19,13 +19,12 @@ export default function Auth() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  // Redirect if already logged in
   useEffect(() => {
-    if (!authLoading && user) {
+    if (!authLoading && user && role) {
       if (role === "admin") {
         navigate("/admin", { replace: true });
       } else {
-        navigate("/", { replace: true });
+        navigate("/stadiums", { replace: true });
       }
     }
   }, [user, role, authLoading, navigate]);
@@ -50,7 +49,6 @@ export default function Auth() {
         await signUp(email, password, name);
       }
       toast({ title: isLogin ? t("auth.welcomeBack") : t("auth.createAccount") });
-      // useEffect above will handle redirect once user & role are set
     } catch (err) {
       toast({ title: t("common.error"), description: err.message, variant: "destructive" });
     } finally {

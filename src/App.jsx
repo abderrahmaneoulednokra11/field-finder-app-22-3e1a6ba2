@@ -40,8 +40,8 @@ const App = () => (
                   <Route path="/stadiums" element={<Stadiums />} />
                   <Route path="/about" element={<About />} />
                   <Route path="/contact" element={<Contact />} />
-                  <Route path="/book/:id" element={<ProtectedRoute><BookStadium /></ProtectedRoute>} />
-                  <Route path="/my-reservations" element={<ProtectedRoute><MyReservations /></ProtectedRoute>} />
+                  <Route path="/book/:id" element={<ProtectedRoute requiredRole="client"><BookStadium /></ProtectedRoute>} />
+                  <Route path="/my-reservations" element={<ProtectedRoute requiredRole="client"><MyReservations /></ProtectedRoute>} />
                 </Route>
                 <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminLayout /></ProtectedRoute>}>
                   <Route index element={<Dashboard />} />
