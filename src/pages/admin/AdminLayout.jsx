@@ -1,6 +1,7 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { LayoutDashboard, Building, Calendar, Users, ArrowLeft } from "lucide-react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Building, Calendar, Users, LogOut } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageToggle from "@/components/LanguageToggle";
 import { cn } from "@/lib/utils";
@@ -8,6 +9,13 @@ import { cn } from "@/lib/utils";
 export default function AdminLayout() {
   const { pathname } = useLocation();
   const { t } = useLanguage();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/auth", { replace: true });
+  };
 
   const navItems = [
     { to: "/admin", icon: LayoutDashboard, label: t("admin.dashboard"), exact: true },
