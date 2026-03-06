@@ -157,7 +157,12 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "client"
-      reservation_status: "confirmed" | "cancelled"
+      reservation_status:
+        | "confirmed"
+        | "cancelled"
+        | "pending"
+        | "approved"
+        | "rejected"
       stadium_status: "available" | "maintenance"
       stadium_type: "5v5" | "7v7" | "9v9" | "11v11"
     }
@@ -288,7 +293,13 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "client"],
-      reservation_status: ["confirmed", "cancelled"],
+      reservation_status: [
+        "confirmed",
+        "cancelled",
+        "pending",
+        "approved",
+        "rejected",
+      ],
       stadium_status: ["available", "maintenance"],
       stadium_type: ["5v5", "7v7", "9v9", "11v11"],
     },

@@ -67,7 +67,7 @@ export default function BookStadium() {
         .select("start_time")
         .eq("stadium_id", id)
         .eq("date", date)
-        .eq("status", "confirmed");
+        .in("status", ["pending", "approved", "confirmed"]);
 
       const reserved = new Set();
       data?.forEach((r) => {
@@ -112,7 +112,7 @@ export default function BookStadium() {
       .eq("stadium_id", stadium.id)
       .eq("date", date)
       .eq("start_time", slot.start)
-      .eq("status", "confirmed")
+      .in("status", ["pending", "approved", "confirmed"])
       .maybeSingle();
 
     if (existing) {
@@ -134,7 +134,7 @@ export default function BookStadium() {
     if (error) {
       toast({ title: t("book.failed"), description: error.message, variant: "destructive" });
     } else {
-      toast({ title: t("book.confirmed"), description: `${stadium.type} — ${date} ${slot.start} → ${slot.end}` });
+      toast({ title: t("book.pendingMessage") });
       navigate("/my-reservations");
     }
     setLoading(false);

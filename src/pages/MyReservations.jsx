@@ -67,10 +67,25 @@ export default function MyReservations() {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <Badge variant={r.status === "confirmed" ? "default" : "destructive"}>
-                  {r.status === "confirmed" ? t("myRes.confirmed") : t("myRes.cancelled")}
+                <Badge
+                  variant={
+                    r.status === "approved" || r.status === "confirmed" ? "default"
+                    : r.status === "pending" ? "secondary"
+                    : "destructive"
+                  }
+                  className={
+                    r.status === "pending" ? "bg-orange-500 text-white border-orange-500 hover:bg-orange-600"
+                    : r.status === "approved" ? "bg-green-600 text-white border-green-600 hover:bg-green-700"
+                    : ""
+                  }
+                >
+                  {r.status === "confirmed" ? t("myRes.confirmed")
+                    : r.status === "approved" ? t("myRes.approved")
+                    : r.status === "pending" ? t("myRes.pending")
+                    : r.status === "rejected" ? t("myRes.rejected")
+                    : t("myRes.cancelled")}
                 </Badge>
-                {r.status === "confirmed" && (
+                {(r.status === "confirmed" || r.status === "pending" || r.status === "approved") && (
                   <Button variant="outline" size="sm" onClick={() => handleCancel(r.id)}>{t("myRes.cancel")}</Button>
                 )}
               </div>

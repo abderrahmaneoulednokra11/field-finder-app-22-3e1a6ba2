@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
-import { Trash2, XCircle } from "lucide-react";
+import { Trash2, CheckCircle2, XCircle } from "lucide-react";
 
 export default function AdminReservations() {
   const { toast } = useToast();
@@ -31,10 +31,13 @@ export default function AdminReservations() {
 
   useEffect(() => { fetchData(); }, []);
 
-  const handleCancel = async (id) => {
-    const { error } = await supabase.from("reservations").update({ status: "cancelled" }).eq("id", id);
-    if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }
-    toast({ title: t("myRes.reservationCancelled") });
+  const handleUpdateStatus = async (id, status) => {
+    const { error } = await supabase.from("reservations").update({ status }).eq("id", id);
+    if (error) {
+      toast({ title: t("common.error"), description: error.message, variant: "destructive" });
+      return;
+    }
+    toast({ title: status === "approved" ? t("admin.approved") : status === "rejected" ? t("admin.rejected") : t("myRes.reservationCancelled") });
     fetchData();
   };
 
@@ -43,6 +46,18 @@ export default function AdminReservations() {
     const { error } = await supabase.from("reservations").delete().eq("id", id);
     if (error) { toast({ title: t("common.error"), description: error.message, variant: "destructive" }); return; }
     fetchData();
+  };
+
+  const getStatusBadge = (status) => {
+    const config = {
+      pending: { label: t("admin.pending"), className: "bg-orange-500 text-white border-orange-500" },
+      approved: { label: t("admin.approved"), className: "bg-green-600 text-white border-green-600" },
+      confirmed: { label: t("myRes.confirmed"), className: "" },
+      rejected: { label: t("admin.rejected"), className: "bg-destructive text-destructive-foreground" },
+      cancelled: { label: t("myRes.cancelled"), className: "bg-destructive text-destructive-foreground" },
+    };
+    const c = config[status] || config.cancelled;
+    return <Badge className={c.className}>{c.label}</Badge>;
   };
 
   return (
@@ -70,14 +85,17 @@ export default function AdminReservations() {
                   <TableCell>{r.stadium?.type || "—"}</TableCell>
                   <TableCell>{r.date}</TableCell>
                   <TableCell>{r.start_time} - {r.end_time}</TableCell>
-                  <TableCell>
-                    <Badge variant={r.status === "confirmed" ? "default" : "destructive"}>
-                      {r.status === "confirmed" ? t("myRes.confirmed") : t("myRes.cancelled")}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {r.status === "confirmed" && (
-                      <Button variant="ghost" size="sm" onClick={() => handleCancel(r.id)}><XCircle className="w-4 h-4" /></Button>
+                  <TableCell>{getStatusBadge(r.status)}</TableCell>
+                  <TableCell className="text-right space-x-1">
+                    {r.status === "pending" && (
+                      <>
+                        <Button variant="ghost" size="sm" className="text-green-600 hover:text-green-700 hover:bg-green-50" onClick={() => handleUpdateStatus(r.id, "approved")}>
+                          <CheckCircle2 className="w-4 h-4 mr-1" /> {t("admin.approve")}
+                        </Button>
+                        <Button variant="ghost" size="sm" className="text-destructive hover:bg-destructive/10" onClick={() => handleUpdateStatus(r.id, "rejected")}>
+                          <XCircle className="w-4 h-4 mr-1" /> {t("admin.reject")}
+                        </Button>
+                      </>
                     )}
                     <Button variant="ghost" size="sm" onClick={() => handleDelete(r.id)}><Trash2 className="w-4 h-4 text-destructive" /></Button>
                   </TableCell>
