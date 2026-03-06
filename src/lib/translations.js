@@ -57,6 +57,7 @@ export const translations = {
   "book.confirm": { fr: "Confirmer la Réservation", ar: "تأكيد الحجز", en: "Confirm Booking" },
   "book.booking": { fr: "Réservation en cours...", ar: "جاري الحجز...", en: "Booking..." },
   "book.confirmed": { fr: "Réservation confirmée !", ar: "تم تأكيد الحجز!", en: "Booking confirmed!" },
+  "book.pendingMessage": { fr: "Votre réservation est en attente de validation par l'administrateur.", ar: "حجزك في انتظار موافقة المسؤول.", en: "Your reservation has been sent and is waiting for admin validation." },
   "book.failed": { fr: "Échec de la réservation", ar: "فشل الحجز", en: "Booking failed" },
   "book.gallery": { fr: "Galerie", ar: "معرض الصور", en: "Gallery" },
   "book.tooSoon": { fr: "La réservation doit être faite au moins 2 heures à l'avance.", ar: "يجب إجراء الحجز قبل ساعتين على الأقل.", en: "Reservation must be made at least 2 hours in advance." },
@@ -69,6 +70,9 @@ export const translations = {
   "myRes.cancel": { fr: "Annuler", ar: "إلغاء", en: "Cancel" },
   "myRes.confirmed": { fr: "Confirmée", ar: "مؤكدة", en: "Confirmed" },
   "myRes.cancelled": { fr: "Annulée", ar: "ملغاة", en: "Cancelled" },
+  "myRes.pending": { fr: "En attente", ar: "قيد الانتظار", en: "Pending" },
+  "myRes.approved": { fr: "Approuvée", ar: "تمت الموافقة", en: "Approved" },
+  "myRes.rejected": { fr: "Refusée", ar: "مرفوضة", en: "Rejected" },
   "myRes.reservationCancelled": { fr: "Réservation annulée", ar: "تم إلغاء الحجز", en: "Booking cancelled" },
 
   // About
@@ -153,6 +157,11 @@ export const translations = {
   "admin.role": { fr: "Rôle", ar: "الدور", en: "Role" },
   "admin.joined": { fr: "Inscrit le", ar: "تاريخ الانضمام", en: "Joined" },
   "admin.price": { fr: "Prix/h", ar: "السعر/س", en: "Price/h" },
+  "admin.approve": { fr: "Approuver", ar: "موافقة", en: "Approve" },
+  "admin.reject": { fr: "Refuser", ar: "رفض", en: "Reject" },
+  "admin.approved": { fr: "Approuvée", ar: "تمت الموافقة", en: "Approved" },
+  "admin.rejected": { fr: "Refusée", ar: "مرفوضة", en: "Rejected" },
+  "admin.pending": { fr: "En attente", ar: "قيد الانتظار", en: "Pending" },
 
   // Common
   "common.error": { fr: "Erreur", ar: "خطأ", en: "Error" },
