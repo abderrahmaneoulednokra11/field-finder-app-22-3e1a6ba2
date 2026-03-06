@@ -43,7 +43,7 @@ export default function Index() {
               <Button size="lg" className="font-display uppercase tracking-wider">{t("hero.browse")}</Button>
             </Link>
             <Link to={getStartedLink}>
-              <Button size="lg" variant="outline" className="font-display uppercase tracking-wider border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10">
+              <Button size="lg" className="font-display uppercase tracking-wider bg-primary text-primary-foreground hover:bg-primary/90 shadow-md">
                 {t("hero.getStarted")}
               </Button>
             </Link>

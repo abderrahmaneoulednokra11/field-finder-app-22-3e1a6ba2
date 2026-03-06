@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
@@ -37,14 +37,14 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-6">
           {links.map((l) => (
-            <Link key={l.to} to={l.to} className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <NavLink key={l.to} to={l.to} end={l.to === "/"} className={({ isActive }) => `text-sm font-medium transition-colors pb-0.5 ${isActive ? "text-primary font-semibold border-b-2 border-primary" : "text-muted-foreground hover:text-foreground"}`}>
               {l.label}
-            </Link>
+            </NavLink>
           ))}
           {user && (
-            <Link to="/my-reservations" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            <NavLink to="/my-reservations" className={({ isActive }) => `text-sm font-medium transition-colors pb-0.5 ${isActive ? "text-primary font-semibold border-b-2 border-primary" : "text-muted-foreground hover:text-foreground"}`}>
               {t("nav.myReservations")}
-            </Link>
+            </NavLink>
           )}
 
           <LanguageToggle />
@@ -79,14 +79,14 @@ export default function Navbar() {
       {open && (
         <div className="md:hidden border-t bg-card p-4 space-y-3">
           {links.map((l) => (
-            <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className="block text-sm font-medium text-muted-foreground hover:text-foreground">
+            <NavLink key={l.to} to={l.to} end={l.to === "/"} onClick={() => setOpen(false)} className={({ isActive }) => `block text-sm font-medium ${isActive ? "text-primary font-semibold" : "text-muted-foreground hover:text-foreground"}`}>
               {l.label}
-            </Link>
+            </NavLink>
           ))}
           {user && (
-            <Link to="/my-reservations" onClick={() => setOpen(false)} className="block text-sm font-medium text-muted-foreground">
+            <NavLink to="/my-reservations" onClick={() => setOpen(false)} className={({ isActive }) => `block text-sm font-medium ${isActive ? "text-primary font-semibold" : "text-muted-foreground hover:text-foreground"}`}>
               {t("nav.myReservations")}
-            </Link>
+            </NavLink>
           )}
           {user ? (
             <Button variant="outline" size="sm" className="w-full" onClick={() => { handleSignOut(); setOpen(false); }}>
