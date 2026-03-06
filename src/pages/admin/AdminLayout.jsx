@@ -1,6 +1,7 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
-import { LayoutDashboard, Building, Calendar, Users, ArrowLeft } from "lucide-react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { LayoutDashboard, Building, Calendar, Users, LogOut } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 import ThemeToggle from "@/components/ThemeToggle";
 import LanguageToggle from "@/components/LanguageToggle";
 import { cn } from "@/lib/utils";
@@ -8,6 +9,13 @@ import { cn } from "@/lib/utils";
 export default function AdminLayout() {
   const { pathname } = useLocation();
   const { t } = useLanguage();
+  const { signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/auth", { replace: true });
+  };
 
   const navItems = [
     { to: "/admin", icon: LayoutDashboard, label: t("admin.dashboard"), exact: true },
@@ -47,9 +55,12 @@ export default function AdminLayout() {
           })}
         </nav>
         <div className="p-3 border-t border-sidebar-border">
-          <Link to="/" className="flex items-center gap-2 text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors px-3 py-2">
-            <ArrowLeft className="w-4 h-4" /> {t("admin.backToSite")}
-          </Link>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 text-sm text-sidebar-foreground/70 hover:text-destructive transition-colors px-3 py-2 w-full rounded-md hover:bg-sidebar-accent/50"
+          >
+            <LogOut className="w-4 h-4" /> {t("nav.signOut")}
+          </button>
         </div>
       </aside>
       <main className="flex-1 bg-background p-6 overflow-auto">
